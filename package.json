@@ -1,0 +1,26 @@
+{
+  "name": "shorty",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Ujjwal",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.4",
+    "nanoid": "^5.1.5",
+    "nodemon": "^3.1.10",
+    "shortid": "^2.2.17",
+    "tailwindcss": "^4.1.11",
+    "uuid": "^11.1.0"
+  }
+}
