@@ -19,6 +19,7 @@ connectToMongoDB('mongodb://localhost:27017/short-url').then(() => {
 
 app.set("view engine","ejs");
 app.set('views', path.resolve("./views"));
+app.use(express.static(path.resolve("./public")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

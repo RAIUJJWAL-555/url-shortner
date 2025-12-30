@@ -1,67 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: black;
-        color: azure;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      h1{
-        font-size: 5rem;
-        color: rgba(0, 89, 255, 0.989);
-      }
-      form{
-        height: 500px;
-        width: 400px;
-        /* background-color: bisque; */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-      }
-      .detail{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-      label{
-        color:white;
-        margin: 5px;
-      }
-      input{
-        width: 250px;
-        height: 30px;
-      }
-      button{
-        background-color: rgb(152, 242, 16);
-        /* color: white; */
-        height: 30px;
-        width: 90px;
-        border: none;
-      }
-    </style>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signup</title>
-  </head>
-  <body>
-    <h1>Signup</h1>
-    <form action="/user" method="post">
-      <label>Full Name</label>
-      <input type="text" required name="name" />
-      <label>Email</label>
-      <input type="text" required name="email" />
-      <label>Password</label>
-      <input type="text" required name="password" />
 
-      <button type="submit">Signup</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <style>
+    /* --- THEME & ANIMATIONS --- */
+    :root {
+      --primary-color: #58a6ff;
+      --glass-bg: rgba(22, 27, 34, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --text-muted: #8b949e;
+    }
+
+    body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      overflow: hidden; /* No scroll needed for centered form */
+      perspective: 1000px;
+    }
+
+    /* MOVING BACKGROUNDS */
+    .bg-shape {
+      position: fixed;
+      width: 450px;
+      height: 450px;
+      background: linear-gradient(45deg, #ff6b6b, #58a6ff);
+      filter: blur(90px);
+      opacity: 0.3;
+      z-index: -1;
+      border-radius: 50%;
+      animation: floatAnimation 14s infinite alternate ease-in-out;
+    }
+
+    .shape-1 { top: -120px; left: -120px; animation-delay: 0s; }
+    .shape-2 { bottom: -120px; right: -120px; animation-delay: 4s; background: linear-gradient(45deg, #238636, #a371f7); }
+
+    @keyframes floatAnimation {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(50px, 70px) scale(1.1); }
+    }
+
+    /* GLASS CONTAINER */
+    .glass-container {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      
+      /* Slide Up Entrance */
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+    }
+
+    @keyframes slideUpFade {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* TYPOGRAPHY */
+    h1 { margin-top: 0; margin-bottom: 10px; color: #fff; }
+    
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 20px;
+    }
+
+    /* INPUTS */
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #0d1117;
+      color: #fff;
+      outline: none;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* BUTTON */
+    button {
+      width: 100%;
+      margin-top: 30px;
+      padding: 14px;
+      background: #238636;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: #2ea043;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(35, 134, 54, 0.4);
+    }
+    
+    button:active { transform: scale(0.98); }
+
+    /* LINK */
+    a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    
+    a span { transition: text-shadow 0.2s; }
+    a:hover span { text-shadow: 0 0 10px rgba(88, 166, 255, 0.6); }
+
+    /* STAGGERED ENTRY ANIMATION */
+    form > div, button, a {
+      opacity: 0;
+      animation: simpleFadeIn 0.5s ease forwards;
+    }
+
+    /* Delays for cascading effect */
+    form > div { animation-delay: 0.2s; } /* Inputs container */
+    button { animation-delay: 0.4s; }
+    a { animation-delay: 0.6s; }
+
+    @keyframes simpleFadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+
+  <div class="glass-container js-tilt">
+    <h1>Create Account</h1>
+    <p style="margin-bottom: 30px; font-size: 1.1rem; color: #8b949e;">Join us today</p>
+
+    <form action="/user" method="post">
+      <div style="text-align: left;">
+        <label>Full Name</label>
+        <input type="text" required name="name" placeholder="John Doe" />
+
+        <label>Email Address</label>
+        <input type="email" required name="email" placeholder="you@example.com" />
+
+        <label>Password</label>
+        <input type="password" required name="password" placeholder="••••••••" />
+      </div>
+
+      <button type="submit">Sign Up</button>
     </form>
-  </body>
+
+    <a href="/login" style="margin-top: 25px; display: inline-block;">
+      Already have an account? <span style="color: #58a6ff; font-weight: 600;">Login</span>
+    </a>
+  </div>
+
+  <script>
+    const container = document.querySelector('.js-tilt');
+    
+    if(container) {
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            const rotateX = y / -15; 
+            const rotateY = x / 15;
+
+            container.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            container.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`;
+            container.style.transition = "transform 0.5s ease";
+        });
+
+        container.addEventListener('mouseenter', () => {
+            container.style.transition = "none";
+        });
+    }
+  </script>
+</body>
+
 </html>

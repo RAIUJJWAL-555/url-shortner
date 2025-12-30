@@ -1,73 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: black;
-        color: azure;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      h1{
-        font-size: 5rem;
-        color: rgba(0, 89, 255, 0.989);
-      }
-      table{
-        /* display: flex;
-        flex-direction: column; */
-        margin: 150px;
-      }
-      label{
-        color: red;
-      }
-      button{
-        background-color: rgb(152, 242, 16);
-        /* color: white; */
-        border: none;
-      }
-    </style>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home Page</title>
-  </head>
-  <body>
-    <h1>URL Shortener</h1>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URL Shortener</title>
+  <link rel="stylesheet" href="/css/main.css">
+
+  <style>
+    /* --- CUSTOM ANIMATIONS & STYLES --- */
+    :root {
+      --primary-color: #58a6ff;
+      --glass-bg: rgba(22, 27, 34, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      background-color: #0d1117; /* GitHub Dark theme style base */
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+      perspective: 1000px; /* Essential for 3D effect */
+    }
+
+    /* 1. MOVING BACKGROUND SHAPES */
+    .bg-shape {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(45deg, #ff6b6b, #58a6ff);
+      filter: blur(80px);
+      opacity: 0.4;
+      z-index: -1;
+      border-radius: 50%;
+      animation: floatAnimation 10s infinite alternate ease-in-out;
+    }
+
+    .shape-1 { top: -100px; left: -100px; animation-delay: 0s; }
+    .shape-2 { bottom: -100px; right: -100px; animation-delay: 2s; background: linear-gradient(45deg, #238636, #f1c40f); }
+
+    @keyframes floatAnimation {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 50px) scale(1.1); }
+    }
+
+    /* 2. GLASS CONTAINER WITH 3D PREP */
+    .glass-container {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      border-radius: 12px;
+      padding: 40px;
+      margin: 50px auto;
+      text-align: center;
+      
+      /* Animation Initial State */
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      
+      /* 3D Transition smoothness */
+      transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+    }
+
+    /* Hover effect for 3D depth */
+    .glass-container:hover {
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    
+    /* Content pop-out effect in 3D */
+    .glass-container h1, .glass-container form {
+      transform: translateZ(20px); /* Elements pop out */
+    }
+
+    /* 3. SLIDING ENTRANCE ANIMATION */
+    @keyframes slideUpFade {
+      to { opacity: 1; transform: translateY(0) rotateX(0) rotateY(0); }
+    }
+
+    /* INPUTS & BUTTONS */
+    input[type="text"] {
+      padding: 12px 15px;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      background: #0d1117;
+      color: #fff;
+      outline: none;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+    }
+
+    button {
+      padding: 12px 24px;
+      background: #238636;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.2s ease, background 0.2s;
+    }
+
+    button:hover {
+      background: #2ea043;
+      transform: translateY(-2px); /* Button lift */
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    /* TABLE STYLING & ANIMATION */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #30363d;
+      color: #c9d1d9;
+    }
+
+    th { color: #8b949e; font-weight: 600; }
+    
+    /* Staggered animation for table rows */
+    tbody tr {
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slideInRight 0.5s ease forwards;
+    }
+
+    /* Loop for staggered delay (CSS only approach for first 10 items) */
+    tbody tr:nth-child(1) { animation-delay: 0.2s; }
+    tbody tr:nth-child(2) { animation-delay: 0.3s; }
+    tbody tr:nth-child(3) { animation-delay: 0.4s; }
+    tbody tr:nth-child(4) { animation-delay: 0.5s; }
+    tbody tr:nth-child(5) { animation-delay: 0.6s; }
+
+    @keyframes slideInRight {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+
+  <a href="/user/logout"
+    style="position: fixed; top: 20px; right: 20px; text-decoration: none; background: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; color: #ff6b6b; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; z-index: 1000;"
+    onmouseover="this.style.transform='scale(1.05) rotate(2deg)'; this.style.background='rgba(220, 53, 69, 0.2)'"
+    onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.background='rgba(220, 53, 69, 0.1)'">
+    Logout
+  </a>
+
+  <div class="glass-container js-tilt" style="max-width: 800px; margin-bottom: 30px;">
+    <h1>Shorty</h1>
+    <p style="margin-bottom: 30px; color: #8b949e;">Simplify your links, track your reach.</p>
+    
     <% if (locals.id) { %>
-    <p>URL Generated: http://localhost:8001/url/<%= id %></p>
+      <div
+        style="background: rgba(35, 134, 54, 0.2); border: 1px solid #238636; padding: 15px; border-radius: 8px; margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        <p style="color: #fff; margin-bottom: 5px;">URL Generated Successfully!</p>
+        <a href="http://localhost:8001/url/<%= id %>" target="_blank"
+          style="font-size: 1.2rem; font-weight: bold; color: #58a6ff; margin-top: 5px; display: inline-block;">
+          http://localhost:8001/url/<%= id %>
+        </a>
+      </div>
     <% } %>
 
-    <div>
-      <form method="POST" action="/url">
-        <label>Enter Your Original URL</label>
-        <input type="text" name="url" placeholder="https://example.com" />
-        <button type="submit">Generate</button>
-      </form>
+    <form method="POST" action="/url">
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="text" name="url" placeholder="https://example.com/very-long-url"
+          style="flex: 1; margin-bottom: 0;" />
+        <button type="submit" style="width: auto; margin-top: 0;">Shorten</button>
+      </div>
+    </form>
+  </div>
+
+  <% if (locals.urls && locals.urls.length> 0) { %>
+    <div class="glass-container" style="max-width: 900px; padding: 20px; animation-delay: 0.3s;">
+      <h2 style="font-size: 1.5rem; margin-bottom: 20px; text-align: left;">Your Recent Links</h2>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>S. No</th>
+              <th>Short ID</th>
+              <th>Original Link</th>
+              <th>Clicks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% urls.forEach((url, index)=> { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td>
+                    <span style="color: #58a6ff; font-family: monospace; background: rgba(88,166,255,0.1); padding: 2px 6px; border-radius: 4px;">
+                        <%= url.shortId %>
+                    </span>
+                </td>
+                <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                  <a href="<%= url.redirectURL %>" target="_blank" style="margin: 0; color: #c9d1d9; text-decoration: none; transition: color 0.2s;">
+                    <%= url.redirectURL %>
+                  </a>
+                </td>
+                <td><%= url.visitHistory.length %></td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div style="margin-top: 30px">
-      <% if (locals.urls) { %>
-      <table>
-        <thead>
-          <th>S. No</th>
-          <th>ShortID</th>
-          <th>Redirect</th>
-          <th>Clicks</th>
-        </thead>
-        <tbody>
-          <% urls.forEach((url, index) => { %>
-          <tr>
-            <td><%= index + 1 %></td>
-            <td><%= url.shortId %></td>
-            <td><%= url.redirectURL %></td>
-            <td><%= url.visitHistory.length %></td>
-          </tr>
-          <% }) %>
-        </tbody>
-      </table>
-      <% } %>
-    </div>
-  </body>
+  <% } %>
+
+  <script>
+    const container = document.querySelector('.js-tilt');
+    
+    if(container) {
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            // Calculate mouse position relative to center of the card
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            // Adjust sensitivity (higher number = less rotation)
+            const rotateX = y / -20; 
+            const rotateY = x / 20;
+
+            container.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        // Reset when mouse leaves
+        container.addEventListener('mouseleave', () => {
+            container.style.transform = `perspective(1000px) rotateX(0) rotateY(0)`;
+            container.style.transition = "transform 0.5s ease"; // Smooth reset
+        });
+
+        // Remove transition during movement to prevent lag
+        container.addEventListener('mouseenter', () => {
+            container.style.transition = "none";
+        });
+    }
+  </script>
+
+</body>
 </html>

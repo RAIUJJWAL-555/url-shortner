@@ -1,71 +1,71 @@
-import express from "express"
-import cors from 'cors'
-import 'dotenv/config'
-import connectDB from "./config/mongodb.js";
+// import express from "express"
+// import cors from 'cors'
+// import 'dotenv/config'
+// import connectDB from "./config/mongodb.js";
 
 
-// App config
+// // App config
 
-const app = express();
-const port = process.env.PORT || 4000;
+// const app = express();
+// const port = process.env.PORT || 4000;
 
-// mongo 
+// // mongo 
 
-connectDB();
+// connectDB();
 
-// middleware 
+// // middleware 
 
-app.use(express.json())
-app.use(cors())
+// app.use(express.json())
+// app.use(cors())
 
-// api endpoint 
+// // api endpoint 
 
-app.get('/',(req,res)=>{
-    res.send('API working')
-})
+// app.get('/',(req,res)=>{
+//     res.send('API working')
+// })
 
-app.listen(port,()=> console.log("Server is running on PORT :"+port)
-)import express from "express"
-import cors from 'cors'
-import 'dotenv/config'
-import connectDB from "./config/mongodb.js";
+// app.listen(port,()=> console.log("Server is running on PORT :"+port)
+// )import express from "express"
+// import cors from 'cors'
+// import 'dotenv/config'
+// import connectDB from "./config/mongodb.js";
 
 
-// App config
+// // App config
 
-const app = express();
-const port = process.env.PORT || 4000;
+// const app = express();
+// const port = process.env.PORT || 4000;
 
-// mongo 
+// // mongo 
 
-connectDB();
+// connectDB();
 
-// middleware 
+// // middleware 
 
-app.use(express.json())
-app.use(cors())
+// app.use(express.json())
+// app.use(cors())
 
-// api endpoint 
+// // api endpoint 
 
-app.get('/',(req,res)=>{
-    res.send('API working')
-})
+// app.get('/',(req,res)=>{
+//     res.send('API working')
+// })
 
-app.listen(port,()=> console.log("Server is running on PORT :"+port)
-) this is server.js.        MONGODB_URI='mongodb://127.0.0.1:27017/E-Comerce-App'
-  this is dotenv.            // config/db.js
-import mongoose from 'mongoose';
+// app.listen(port,()=> console.log("Server is running on PORT :"+port)
+// ) this is server.js.        MONGODB_URI='mongodb://127.0.0.1:27017/E-Comerce-App'
+//   this is dotenv.            // config/db.js
+// import mongoose from 'mongoose';
 
-const connectDB = async () => {
+// const connectDB = async () => {
 
-  mongoose.connection.on('connected', () => {console.log('MONG CONNECTED')});
+//   mongoose.connection.on('connected', () => {console.log('MONG CONNECTED')});
   
   
-    await mongoose.connect(`${process.env.MONGODB_URI}/E-Comerce` )
+//     await mongoose.connect(`${process.env.MONGODB_URI}/E-Comerce` )
     
       
 
   
-};
+// };
 
-export default connectDB;  this is mongodb.js let fix it
+// export default connectDB;  this is mongodb.js let fix it
